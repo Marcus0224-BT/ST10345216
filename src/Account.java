@@ -135,4 +135,132 @@ else{
    
     }}}
 
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template*/
 
+package com.mycompany.account;
+
+import java.util.Scanner;
+
+/**
+ * This class represents a user account with functionalities to register and log in.
+ * It includes methods to check username and password validity.
+ */
+public class Account {
+
+    // User details
+    private String user;       // Current username for login
+    private String pass;       // Current password for login
+    private String username;   // Registered username
+    private String password;    // Registered password
+    private String firstName;  // User's first name
+    private String lastName;   // User's last name
+    private boolean register;
+
+    /**
+     * Checks if the username is valid.
+     * A valid username must contain an underscore and be no more than 5 characters.
+     *
+     * @return true if the username is valid, false otherwise.
+     */
+    public boolean checkUsername() {
+        boolean isValid = false;
+        if (user.length() <= 5 && user.contains("_")) {
+            isValid = true;
+        }
+        return isValid;
+    }
+
+    /**
+     * Checks the complexity of the password.
+     * A valid password must be at least 8 characters long and contain
+     * at least one uppercase letter, one number, and one special character.
+     *
+     * @return true if the password meets the complexity requirements, false otherwise.
+     */
+    public boolean checkPasswordComplexity() {
+        boolean hasNumber = false;
+        boolean hasSpecial = false;
+        boolean hasLetter = false;
+
+        if (password.length() >= 8) {
+            for (int i = 0; i < password.length(); i++) {
+                char ch = password.charAt(i);
+                if (Character.isUpperCase(ch)) {
+                    hasLetter = true;
+                } else if (Character.isDigit(ch)) {
+                    hasNumber = true;
+                } else if (!Character.isLetterOrDigit(ch)) {
+                    hasSpecial = true;
+                }
+            }
+        }
+        return hasLetter && hasNumber && hasSpecial;
+    }
+
+    /**
+     * Registers a user by checking their username and password.
+     * If both are valid, it stores the user details.
+     *
+     * @return a message indicating the registration status.
+     */
+    public String registerUser () {
+        // Check username validity
+        if (checkUsername()) {
+            System.out.println("Username successfully captured.");
+            username = user; // Store the registered username
+        } else {
+            return "Username is not correctly formatted. Ensure it contains an underscore and is no more than 5 characters in length.";
+        }
+
+        // Check password complexity
+        if (checkPasswordComplexity()) {
+            System.out.println("Password successfully captured.");
+            password = pass; // Store the registered password
+        } else {
+            return "Password is not correctly formatted. Ensure it contains at least 8 characters, a capital letter, a number, and a special character.";
+        }
+
+        return "User  has been registered successfully.";
+    }
+
+    /**
+     * Logs in the user by checking the provided username and password.
+     *
+     * @return true if the login is successful, false otherwise.
+     */
+    public boolean loginUser () {
+        return user.equals(username) && pass.equals(password);
+    }
+
+    /**
+     * Returns the login status message.
+     *
+     * @return a message indicating the login status.
+     */
+    public String returnLoginStatus() {
+        if (loginUser ()) {
+            return "Successful Login. Welcome " + firstName + " " + lastName + "! It is great to see you again.";
+        } else {
+            return "Login Failed. Username or Password incorrect. Please try again.";
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Account acc = new Account();
+
+        // User registration
+        System.out.println("Enter your username:");
+        acc.user = input.next(); // Capture input for username
+        System.out.println("Enter your password:");
+        acc.pass = input.next(); // Capture input for password
+        System.out.println("Enter your first name:");
+        acc.firstName = input.next(); // Capture input for first name
+        System.out.println("Enter your last name:");
+        acc.lastName = input.next(); // Capture input for last name
+
+        // Register the user and display the result
+        System.out.println(acc.register);}
+}
